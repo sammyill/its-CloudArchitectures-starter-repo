@@ -6,4 +6,10 @@ app.get("/", (req, res) => {
   res.send("Hello from Node.js inside Docker! 🚀");
 });
 
+app.get("/test", (req, res) => {
+  res.send("this is test route one,hello i'm node");
+});
+
+
+
 app.listen(3000, () => console.log("Server running on port 3000"));

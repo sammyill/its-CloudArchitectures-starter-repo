@@ -84,17 +84,23 @@ jobs:
       #- name: Checkout repository
        # uses: actions/checkout@v4
 
-      # Step 2 — Scarica l’artifact creato dal job BUILD
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: docker-image # Nome definito nel job BUILD
+
+      #download all
+      - uses: actions/download-artifact@v8
+      - name: Display structure of downloaded files
+        run: ls -R
+
 
       # Step 3 — Ricarica l’immagine Docker dal file tar.gz
       # Importante: NON rifacciamo la build
       - name: Load Docker image
         run: |
           gunzip -c image.tar.gz | docker load
+      # Step 3 — Ricarica l’immagine Docker dal file tar.gz
+      # Importante: NON rifacciamo la build
+      - name: Load Docker image
+        run: |
+          gunzip -c imagedate.tar.gz | docker load
 
       # Step 4 — Login a Docker Hub usando i secrets del repository
       # I secrets garantiscono che username e token non siano visibili nei log

@@ -49,6 +49,10 @@ jobs:
       - name: Save Docker image as artifact
         run: |
           docker save $IMAGE_NAME:${{ github.sha }} | gzip > image.tar.gz
+    # Step 7 — Salva una seconda l’immagine Docker in un file tar.gz
+      # cosi può essere trasferita a un altro job
+      - name: Save Docker image as artifact
+        run: |
           docker save $IMAGE_NAME:${{ env.DATE_TAG }} | gzip > imagedate.tar.gz
 
       # Step 7 — Carica l’immagine salvata come artifact del workflow

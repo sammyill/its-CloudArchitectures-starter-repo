@@ -65,10 +65,10 @@ jobs:
           retention-days: 1          # Lo mantiene 1 giorno (per sicurezza)
     # Step 7big — Carica l’immagine salvata come artifact del workflow
     # Così il job DEPLOY potrà scaricarla
-      - name: Upload DockerDate image artifact
+      - name: Upload Docker image artifact
         uses: actions/upload-artifact@v4
         with:
-          name: docker-image         # Nome dell’artifact
+          name: docker-image-sha         # Nome dell’artifact
           path: imagedate.tar.gz        # File da caricare
           retention-days: 1          # Lo mantiene 1 giorno (per sicurezza)
 

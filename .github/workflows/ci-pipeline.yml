@@ -17,8 +17,6 @@ jobs:
   build:
     runs-on: ubuntu-latest # Runner GitHub Actions basato su Ubuntu
 
-
-    
     steps:
       # Step 1 — Scarica il codice del repository nel runner
       - name: Checkout repository
@@ -51,6 +49,7 @@ jobs:
       - name: Save Docker image as artifact
         run: |
           docker save $IMAGE_NAME:${{ github.sha }} | gzip > image.tar.gz
+          docker save $IMAGE_NAME:${{ env.DATE_TAG }} | gzip > imagedate.tar.gz
 
       # Step 7 — Carica l’immagine salvata come artifact del workflow
       # Così il job DEPLOY potrà scaricarla
@@ -69,8 +68,6 @@ jobs:
     needs: build                   # Il job parte SOLO se il job build è riuscito
     runs-on: ubuntu-latest
 
-   
-    
     # Questo job si attiva SOLO se il push è sul branch "main"
     if: github.ref == 'refs/heads/main'
     
@@ -78,8 +75,6 @@ jobs:
       # Step 1 — Anche qui serve il codice, anche se non essenziale
       #- name: Checkout repository
        # uses: actions/checkout@v4
-
-    
 
       # Step 2 — Scarica l’artifact creato dal job BUILD
       - name: Download Docker image artifact

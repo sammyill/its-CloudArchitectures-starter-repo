@@ -48,7 +48,7 @@ jobs:
       # cosi può essere trasferita a un altro job
       - name: Save Docker image as artifact
         run: |
-          docker save $IMAGE_NAME:${{ github.sha }} | gzip > image.tar.
+          docker save $IMAGE_NAME:${{ github.sha }} | gzip > image.tar.gz
       # Step 6 — Salva l’immagine Docker in un file tar.gz
       # cosi può essere trasferita a un altro job
       - name: Save Docker image as artifact

@@ -49,7 +49,7 @@ jobs:
       - name: Save Docker image as artifact
         run: |
           docker save $IMAGE_NAME:${{ github.sha }} | gzip > image.tar.gz
-    # Step 7 — Salva una seconda l’immagine Docker in un file tar.gz
+    # Step 6bis — Salva una seconda l’immagine Docker in un file tar.gz
       # cosi può essere trasferita a un altro job
       - name: Save Docker image as artifact
         run: |
@@ -62,6 +62,14 @@ jobs:
         with:
           name: docker-image         # Nome dell’artifact
           path: image.tar.gz         # File da caricare
+          retention-days: 1          # Lo mantiene 1 giorno (per sicurezza)
+    # Step 7big — Carica l’immagine salvata come artifact del workflow
+    # Così il job DEPLOY potrà scaricarla
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image         # Nome dell’artifact
+          path: imagedate.tar.gz        # File da caricare
           retention-days: 1          # Lo mantiene 1 giorno (per sicurezza)
 
   # -------------------------
@@ -107,6 +115,7 @@ jobs:
         run: |
           docker tag $IMAGE_NAME:${{ github.sha }} \
           ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
+      
 
 
       # Step 6 — Push finale verso Docker

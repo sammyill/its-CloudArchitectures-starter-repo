@@ -4,9 +4,10 @@ name: CI + Docker Hub Delivery
 # Eventi che attivano la pipeline
 on:
   push:          # Ogni push su qualsiasi branch
+    branches: ["main","matrix"]
   pull_request:  # Ogni pull request verso il repository
 
-       #dafine the tag 
+       #dafine the tag
 env:
   IMAGE_NAME: its-node-demo
   DATE_TAG: ${{ github.run_id }}-${{ github.run_number }}
@@ -82,7 +83,7 @@ jobs:
 
     # Questo job si attiva SOLO se il push è sul branch "main"
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
       # Step 1 — Anche qui serve il codice, anche se non essenziale
       #- name: Checkout repository
@@ -121,7 +122,7 @@ jobs:
         run: |
           docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
           docker tag $IMAGE_NAME:${{ env.DATE_TAG }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ env.DATE_TAG }}
-     
+
       # Step 6 — Push finale verso Docker
       - name: Push Docker image to Docker Hub
         run: |

@@ -99,12 +99,12 @@ jobs:
       # Importante: NON rifacciamo la build
       - name: Load Docker image
         run: |
-          gunzip -c image.tar.gz | docker load
+          gunzip -c docker-image/image.tar.gz | docker load
       # Step 3 — Ricarica l’immagine Docker dal file tar.gz
       # Importante: NON rifacciamo la build
       - name: Load Docker image
         run: |
-          gunzip -c imagedate.tar.gz | docker load
+          gunzip -c docker-image-sha/imagedate.tar.gz | docker load
 
       # Step 4 — Login a Docker Hub usando i secrets del repository
       # I secrets garantiscono che username e token non siano visibili nei log

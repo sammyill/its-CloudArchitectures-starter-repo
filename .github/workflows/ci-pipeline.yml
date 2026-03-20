@@ -120,7 +120,7 @@ jobs:
       - name: Tag Docker image
         run: |
           docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
-          docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ env.DATE_TAG }}
+          docker tag $IMAGE_NAME:${{ env.DATE_TAG }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ env.DATE_TAG }}
      
       # Step 6 — Push finale verso Docker
       - name: Push Docker image to Docker Hub

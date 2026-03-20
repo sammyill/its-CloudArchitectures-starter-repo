@@ -48,11 +48,7 @@ jobs:
       # cosi può essere trasferita a un altro job
       - name: Save Docker image as artifact
         run: |
-          docker save $IMAGE_NAME:${{ github.sha }} | gzip > image.tar.gz
-    # Step 6bis — Salva una seconda l’immagine Docker in un file tar.gz
-      # cosi può essere trasferita a un altro job
-      - name: Save Docker image as artifact
-        run: |
+          docker save $IMAGE_NAME:${{ github.sha }} | gzip > image.tar.
           docker save $IMAGE_NAME:${{ env.DATE_TAG }} | gzip > imagedate.tar.gz
 
       # Step 7 — Carica l’immagine salvata come artifact del workflow
@@ -108,12 +104,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}   # Solo username
           password: ${{ secrets.DOCKERHUB_TOKEN }}      # Token sicuro
 
-      # Step 6bis — Push finale verso Docker
-      - name: Push Docker image to Docker Hub
+      # Step 5 — Ritagga l’immagine per Docker Hub
+      # Da: its-node-demo:latest
+      # A:  <username>/its-node-demo:latest
+      - name: Tag Docker image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
-
+          docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
+          docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ env.DATE_TAG }}
+     
       # Step 6 — Push finale verso Docker
       - name: Push Docker image to Docker Hub
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ env.DATE_TAG }}
